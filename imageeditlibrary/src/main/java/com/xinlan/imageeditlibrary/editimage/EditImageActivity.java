@@ -81,7 +81,7 @@ public class EditImageActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		checkInitImageLoader();
+//		checkInitImageLoader();
 		setContentView(R.layout.activity_image_edit);
 		initView();
 		getData();
@@ -220,9 +220,6 @@ public class EditImageActivity extends BaseActivity {
 			case MODE_FILTER:// 滤镜编辑状态
 				mFliterListFragment.backToMain();// 保存滤镜贴图
 				return true;
-			case MODE_CROP:// 剪切图片保存
-				mCropFragment.backToMain();
-				return true;
 			case MODE_ROTATE:// 旋转图片保存
 				mRotateFragment.backToMain();
 				return true;
@@ -256,9 +253,6 @@ public class EditImageActivity extends BaseActivity {
 				break;
 			case MODE_FILTER:// 滤镜编辑状态
 				mFliterListFragment.saveFilterImage();// 保存滤镜贴图
-				break;
-			case MODE_CROP:// 剪切图片保存
-				mCropFragment.saveCropImage();
 				break;
 			case MODE_ROTATE:// 旋转图片保存
 				mRotateFragment.saveRotateImage();

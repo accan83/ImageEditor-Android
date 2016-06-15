@@ -49,9 +49,9 @@ public class MainMenuFragment extends Fragment {
                 null);
         stickerBtn = mainView.findViewById(R.id.btn_stickers);
         fliterBtn = mainView.findViewById(R.id.btn_fliter);
-        cropBtn = mainView.findViewById(R.id.btn_crop);
-        rotateBtn = mainView.findViewById(R.id.btn_rotate);
-        mTextBtn = mainView.findViewById(R.id.btn_text);
+//        cropBtn = mainView.findViewById(R.id.btn_crop);
+//        rotateBtn = mainView.findViewById(R.id.btn_rotate);
+//        mTextBtn = mainView.findViewById(R.id.btn_text);
         return mainView;
     }
 
@@ -61,9 +61,9 @@ public class MainMenuFragment extends Fragment {
 
         stickerBtn.setOnClickListener(new StickerClick());
         fliterBtn.setOnClickListener(new FliterClick());
-        cropBtn.setOnClickListener(new CropClick());
-        rotateBtn.setOnClickListener(new RotateClick());
-        mTextBtn.setOnClickListener(new AddTextClick());
+//        cropBtn.setOnClickListener(new CropClick());
+//        rotateBtn.setOnClickListener(new RotateClick());
+//        mTextBtn.setOnClickListener(new AddTextClick());
     }
 
     /**

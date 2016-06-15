@@ -12,7 +12,7 @@ public class SelectPictureActivity extends BaseActivity {
     @Override
     protected void onCreate(final Bundle b) {
         super.onCreate(b);
-        checkInitImageLoader();
+//        checkInitImageLoader();
         setResult(RESULT_CANCELED);
 
         // Create new fragment and transaction

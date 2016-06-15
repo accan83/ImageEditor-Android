@@ -13,8 +13,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.bumptech.glide.Glide;
 import com.xinlan.imageeditlibrary.R;
 import com.xinlan.imageeditlibrary.editimage.fragment.StirckerFragment;
 
@@ -26,12 +25,9 @@ import com.xinlan.imageeditlibrary.editimage.fragment.StirckerFragment;
  * 
  */
 public class StickerAdapter extends RecyclerView.Adapter<ViewHolder> {
-	public DisplayImageOptions imageOption = new DisplayImageOptions.Builder()
-			.cacheInMemory(true).showImageOnLoading(R.drawable.yd_image_tx)
-			.build();// 下载图片显示
 
 	private StirckerFragment mStirckerFragment;
-	private ImageClick mImageClick = new ImageClick();
+	private ImageClick mImageClick;
 	private List<String> pathList = new ArrayList<String>();// 图片路径列表
 
 	public StickerAdapter(StirckerFragment fragment) {
@@ -72,9 +68,13 @@ public class StickerAdapter extends RecyclerView.Adapter<ViewHolder> {
 		ImageHolder imageHoler = (ImageHolder) holder;
 		String path = pathList.get(position);
 		 System.out.println(path);
-		ImageLoader.getInstance().displayImage("assets://" + path,
-				imageHoler.image, imageOption);
-		imageHoler.image.setTag(path);
+		Glide.with(mStirckerFragment)
+				.load("file:///android_asset/" + path)
+				.into(imageHoler.image);
+//		ImageLoader.getInstance().displayImage("assets://" + path,
+//				imageHoler.image, imageOption);
+//		imageHoler.image.setTag(path);
+		mImageClick = new ImageClick(path);
 		imageHoler.image.setOnClickListener(mImageClick);
 	}
 
@@ -99,11 +99,14 @@ public class StickerAdapter extends RecyclerView.Adapter<ViewHolder> {
 	 * 
 	 */
 	private final class ImageClick implements OnClickListener {
+		String path;
+
+		public ImageClick(String path) {
+			this.path = path;
+		}
 		@Override
 		public void onClick(View v) {
-			String data = (String) v.getTag();
-			//System.out.println("data---->" + data);
-			mStirckerFragment.selectedStickerItem(data);
+			mStirckerFragment.selectedStickerItem(path);
 		}
 	}// end inner class
 

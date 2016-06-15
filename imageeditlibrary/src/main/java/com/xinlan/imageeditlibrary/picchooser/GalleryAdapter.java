@@ -8,7 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.nostra13.universalimageloader.core.ImageLoader;
+
+import com.bumptech.glide.Glide;
 import com.xinlan.imageeditlibrary.R;
 
 
@@ -56,7 +57,10 @@ class GalleryAdapter extends BaseAdapter {
             holder.text.setText(bi.images > 1 ?
                     bi.name + " - " + context.getString(R.string.images, bi.images) :
                     bi.name);
-            ImageLoader.getInstance().displayImage("file://" + bi.path, holder.icon);
+            Glide.with(context)
+                    .load("file://" + bi.path)
+                    .into(holder.icon);
+//            ImageLoader.getInstance().displayImage("file://" + bi.path, holder.icon);
 
             return convertView;
         } else { // show images in a bucket
@@ -66,7 +70,10 @@ class GalleryAdapter extends BaseAdapter {
             } else {
                 imageView = (ImageView) convertView;
             }
-            ImageLoader.getInstance().displayImage("file://" + items.get(position).path, imageView);
+            Glide.with(context)
+                    .load("file://" + items.get(position).path)
+                    .into(imageView);
+//            ImageLoader.getInstance().displayImage("file://" + items.get(position).path, imageView);
             return imageView;
         }
     }
