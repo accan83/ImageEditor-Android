@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
-    package="com.xinlan.imageeditandroid"
+    package="com.kapoocino.imageeditandroid"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -20,7 +20,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:replace="android:theme">
         <activity
-            android:name=".MainActivity"
+            android:name="com.kapoocino.imageeditandroid.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -30,16 +30,20 @@
         </activity>
 
         <!--Camera Activity-->
-        <activity android:name="com.xinlan.imageeditlibrary.squarecamera.CameraActivity"/>
+        <activity android:name="com.kapoocino.camera.squarecamera.CameraActivity"/>
 
         <!--选择相册图片Activity-->
         <activity
-            android:name="com.xinlan.imageeditlibrary.picchooser.SelectPictureActivity">
+            android:name="com.kapoocino.camera.picchooser.SelectPictureActivity">
+        </activity>
+
+        <activity
+            android:name="com.kapoocino.camera.picchooser.SelectVideoActivity">
         </activity>
 
         <!--图片编辑Activity-->
         <activity
-            android:name="com.xinlan.imageeditlibrary.editimage.EditImageActivity"
+            android:name="com.kapoocino.camera.editimage.EditImageActivity"
             android:windowSoftInputMode="adjustPan">
         </activity>
 

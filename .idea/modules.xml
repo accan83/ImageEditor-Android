@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ImageEditor.iml" filepath="$PROJECT_DIR$/ImageEditor.iml" />
       <module fileurl="file://$PROJECT_DIR$/demo/demo.iml" filepath="$PROJECT_DIR$/demo/demo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/imageeditlibrary/imageeditlibrary.iml" filepath="$PROJECT_DIR$/imageeditlibrary/imageeditlibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/kapooCameraLibrary/imageeditlibrary.iml" filepath="$PROJECT_DIR$/kapooCameraLibrary/imageeditlibrary.iml" />
     </modules>
   </component>
 </project>

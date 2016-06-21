@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    package="com.kapoocino.camera"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--图片编辑Activity-->
+    <activity
+        android:name="com.kapoocino.camera.editimage.EditImageActivity">
+    </activity>
+    <application android:theme="@style/squarecamera__CameraFullScreenTheme" >
+        <activity
+            android:name="com.kapoocino.camera.squarecamera.RuntimePermissionActivity"
+            android:theme="@style/squarecamera__CameraFullScreenTheme.NoUI" >
+        </activity>
+    </application>
+
+</manifest>
