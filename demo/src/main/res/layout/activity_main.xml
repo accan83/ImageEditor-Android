@@ -25,6 +25,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/edit_image" />
+
+        <Button
+            android:id="@+id/take_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="TAKE PHOTO" />
     </LinearLayout>
 
 </ScrollView>

@@ -11,13 +11,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.FloatMath;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.xinlan.imageeditlibrary.editimage.EditImageActivity;
 import com.xinlan.imageeditlibrary.picchooser.SelectPictureActivity;
+import com.xinlan.imageeditlibrary.squarecamera.CameraActivity;
 
 import java.io.File;
 
@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imgView;
     private View openAblum;
     private View editImage;//
+    private View takePhoto;
     private View stickersImage;//
     private Bitmap mainBitmap;
     public Uri mImageUri;//
@@ -53,9 +54,21 @@ public class MainActivity extends AppCompatActivity {
         imgView = (ImageView) findViewById(R.id.img);
         openAblum = findViewById(R.id.select_ablum);
         editImage = findViewById(R.id.edit_image);
+        takePhoto = findViewById(R.id.take_photo);
 
         openAblum.setOnClickListener(new SelectClick());
         editImage.setOnClickListener(new EditImageClick());
+        takePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchCamera();
+            }
+        });
+    }
+
+    private void launchCamera() {
+        Intent startCustomCameraIntent = new Intent(this, CameraActivity.class);
+        startActivityForResult(startCustomCameraIntent, TAKE_PHOTO_CODE);
     }
 
     /**
@@ -100,6 +113,13 @@ public class MainActivity extends AppCompatActivity {
                 case SELECT_GALLERY_IMAGE_CODE://
                     handleSelectFromAblum(data);
                     break;
+                case TAKE_PHOTO_CODE://
+                    handleTakePhoto(data);
+//                    Uri photoUri = data.getData();
+//                    // Get the bitmap in according to the width of the device
+//                    Bitmap bitmap = getSampledBitmap(photoUri.getPath(), imageWidth, imageHeight);
+//                    imgView.setImageBitmap(bitmap);
+                    break;
                 case ACTION_REQUEST_EDITIMAGE://
                     handleEditorImage(data);
                     break;
@@ -123,6 +143,14 @@ public class MainActivity extends AppCompatActivity {
         task.execute(path);
     }
 
+    private void handleTakePhoto(Intent data) {
+        Uri photoUri = data.getData();
+        String filepath = String.valueOf(photoUri);
+        path = filepath;
+         System.out.println("path---->"+path);
+        LoadImageTask task = new LoadImageTask();
+        task.execute(path);
+    }
 
     private final class LoadImageTask extends AsyncTask<String, Void, Bitmap> {
         @Override
