@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.kapoocino.camera.cropimage.CropActivity">
+
+    <com.isseiaoki.simplecropview.CropImageView
+        xmlns:custom="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/cropImageView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        custom:scv_handle_size="14dp"
+        custom:scv_touch_padding="8dp"
+        custom:scv_handle_show_mode="show_always"
+        custom:scv_guide_show_mode="show_always"
+        custom:scv_min_frame_size="50dp"
+        custom:scv_frame_stroke_weight="1dp"
+        custom:scv_guide_stroke_weight="1dp"/>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btnCrop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="CROP" />
+</RelativeLayout>
