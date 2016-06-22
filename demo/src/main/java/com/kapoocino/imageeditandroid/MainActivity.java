@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
             MainActivity.this.startActivityForResult(new Intent(
                             MainActivity.this, SelectPictureActivity.class),
                     SELECT_GALLERY_IMAGE_CODE);
+//            KapooCamera.cropCamera(MainActivity.this, Uri.parse(path));
         }
     }// end inner class
 
@@ -160,12 +161,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void handleTakePhoto(Intent data) {
-        Uri photoUri = data.getData();
-        String filepath = String.valueOf(photoUri);
-        path = filepath;
-         System.out.println("path---->"+path);
-        LoadImageTask task = new LoadImageTask();
-        task.execute(path);
+        byte[] byteArray = data.getByteArrayExtra("overlay");
+        Bitmap current_bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        imgView.setImageBitmap(current_bmp);
     }
 
     private final class LoadImageTask extends AsyncTask<String, Void, Bitmap> {

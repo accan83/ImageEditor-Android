@@ -44,7 +44,7 @@ public class SelectVideoActivity extends BaseActivity {
 
     private void returnResult(final String imgPath, final String imageTaken, final long imageSize) {
         Intent result = new Intent();
-        result.putExtra("imgPath", imgPath);
+        result.putExtra("vidPath", imgPath);
         result.putExtra("dateTaken", imageTaken);
         result.putExtra("imageSize", imageSize);
         setResult(RESULT_OK, result);

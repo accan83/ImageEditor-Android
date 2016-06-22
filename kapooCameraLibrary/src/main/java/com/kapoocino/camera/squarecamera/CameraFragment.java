@@ -523,13 +523,13 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("---TEST---", "onActivityResult: ");
         if (resultCode != Activity.RESULT_OK) return;
 
         switch (requestCode) {
             case 1:
                 Uri imageUri = data.getData();
                 break;
-
             default:
                 super.onActivityResult(requestCode, resultCode, data);
         }

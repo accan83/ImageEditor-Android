@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+
 import com.kapoocino.camera.BaseActivity;
 
 public class SelectPictureActivity extends BaseActivity {
