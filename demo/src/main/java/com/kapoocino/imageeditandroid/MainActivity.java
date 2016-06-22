@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imgView;
     private View openAblum;
     private View editImage;//
-    private View takePhoto;
+    private View takePhoto, takeVideo, takePhotoVideo;
     private View stickersImage;//
     private Bitmap mainBitmap;
     public Uri mImageUri;//
@@ -58,24 +58,33 @@ public class MainActivity extends AppCompatActivity {
         openAblum = findViewById(R.id.select_ablum);
         editImage = findViewById(R.id.edit_image);
         takePhoto = findViewById(R.id.take_photo);
+        takeVideo = findViewById(R.id.take_video);
+        takePhotoVideo = findViewById(R.id.take_image_video);
 
         openAblum.setOnClickListener(new SelectClick());
         editImage.setOnClickListener(new EditImageClick());
         takePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchCamera();
+                launchCamera(KapooOption.IMAGE_ONLY);
+            }
+        });
+        takeVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchCamera(KapooOption.VIDEO_ONLY);
+            }
+        });
+        takePhotoVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchCamera(KapooOption.IMAGE_AND_VIDEO);
             }
         });
     }
 
-    private void launchCamera() {
-//        Intent startCustomCameraIntent = new Intent(this, CameraActivity.class);
-//        startCustomCameraIntent.putExtra("cameraType", KapooCamera.IMAGE_ONLY);
-//        startActivityForResult(startCustomCameraIntent, TAKE_PHOTO_CODE);
-//        BaseActivity.init(this);
-//        BaseActivity.getInstance().openCamera(this, BaseActivity.cameraType.IMAGE_ONLY);
-        KapooCamera.openCamera(this, KapooOption.IMAGE_ONLY);
+    private void launchCamera(KapooOption type) {
+        KapooCamera.openCamera(this, type);
     }
 
     /**

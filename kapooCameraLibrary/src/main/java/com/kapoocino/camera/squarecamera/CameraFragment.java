@@ -28,9 +28,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kapoocino.camera.KapooCamera;
+import com.kapoocino.camera.KapooOption;
 import com.kapoocino.camera.R;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 
 public class CameraFragment extends Fragment implements SurfaceHolder.Callback, Camera.PictureCallback {
@@ -99,7 +101,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
         mPreviewView.getHolder().addCallback(CameraFragment.this);
 
         final View topCoverView = view.findViewById(R.id.cover_top_view);
-        final View btnCoverView = view.findViewById(R.id.cover_bottom_view);
+        final View btmCoverView = view.findViewById(R.id.cover_bottom_view);
 
         mImageParameters.mIsPortrait =
                 getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
@@ -117,7 +119,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
 
 //                    Log.d(TAG, "parameters: " + mImageParameters.getStringValues());
 //                    Log.d(TAG, "cover height " + topCoverView.getHeight());
-                    resizeTopAndBtmCover(topCoverView, btnCoverView);
+                    resizeTopAndBtmCover(topCoverView, btmCoverView);
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                         mPreviewView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
@@ -129,10 +131,10 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
         } else {
             if (mImageParameters.isPortrait()) {
                 topCoverView.getLayoutParams().height = mImageParameters.mCoverHeight;
-                btnCoverView.getLayoutParams().height = mImageParameters.mCoverHeight;
+                btmCoverView.getLayoutParams().height = mImageParameters.mCoverHeight;
             } else {
                 topCoverView.getLayoutParams().width = mImageParameters.mCoverWidth;
-                btnCoverView.getLayoutParams().width = mImageParameters.mCoverWidth;
+                btmCoverView.getLayoutParams().width = mImageParameters.mCoverWidth;
             }
         }
 
@@ -167,6 +169,9 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
         });
         setupFlashMode();
 
+        Serializable serializable = getActivity().getIntent().getSerializableExtra("cameraType");
+        Log.d(TAG, serializable.toString());
+
         final ImageView takePhotoBtn = (ImageView) view.findViewById(R.id.capture_image_button);
         takePhotoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,20 +179,50 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
                 takePicture();
             }
         });
+
         final ImageView galleryPhotoBtn = (ImageView) view.findViewById(R.id.gallery_photo);
+        final ImageView closeLeftBtn = (ImageView) view.findViewById(R.id.close_left);
         galleryPhotoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 KapooCamera.openPhotoGallery(getActivity());
             }
         });
+        closeLeftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+
         final ImageView galleryVideoBtn = (ImageView) view.findViewById(R.id.gallery_video);
+        final ImageView closeRightBtn = (ImageView) view.findViewById(R.id.close_right);
         galleryVideoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 KapooCamera.openVideoGallery(getActivity());
             }
         });
+        closeRightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+
+        galleryPhotoBtn.setVisibility(View.VISIBLE);
+        closeLeftBtn.setVisibility(View.GONE);
+        galleryVideoBtn.setVisibility(View.VISIBLE);
+        closeRightBtn.setVisibility(View.GONE);
+
+        if (serializable == KapooOption.VIDEO_ONLY) {
+            galleryPhotoBtn.setVisibility(View.GONE);
+            closeLeftBtn.setVisibility(View.VISIBLE);
+        }
+        else if (serializable == KapooOption.IMAGE_ONLY) {
+            galleryVideoBtn.setVisibility(View.GONE);
+            closeRightBtn.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setupFlashMode() {

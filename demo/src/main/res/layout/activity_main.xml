@@ -32,6 +32,18 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:text="TAKE PHOTO" />
+
+        <Button
+            android:id="@+id/take_video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TAKE VIDEO" />
+
+        <Button
+            android:id="@+id/take_image_video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TAKE IMAGE OR VIDEO" />
     </LinearLayout>
 
 </ScrollView>

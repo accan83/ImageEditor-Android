@@ -20,9 +20,6 @@ public class CameraActivity extends AppCompatActivity {
         setTheme(R.style.squarecamera__CameraFullScreenTheme);
         super.onCreate(savedInstanceState);
 
-        Serializable serializable = getIntent().getSerializableExtra("cameraType");
-        Log.d(TAG, serializable.toString());
-
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
