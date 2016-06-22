@@ -1,14 +1,5 @@
 package com.kapoocino.camera.editimage.fragment;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-
 import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.res.AssetManager;
@@ -38,15 +29,24 @@ import com.kapoocino.camera.editimage.utils.Matrix3;
 import com.kapoocino.camera.editimage.view.StickerItem;
 import com.kapoocino.camera.editimage.view.StickerView;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+
 /**
  * 贴图分类fragment
  *
  * @author panyi
  */
-public class StirckerFragment extends Fragment {
+public class StickerFragment extends Fragment {
     public static final int INDEX = 1;
 
-    public static final String TAG = StirckerFragment.class.getName();
+    public static final String TAG = StickerFragment.class.getName();
     public static final String STICKER_FOLDER = "stickers";
 
     private View mainView;
@@ -62,8 +62,8 @@ public class StirckerFragment extends Fragment {
     private LoadStickersTask mLoadStickersTask;
     private List<StickerBean> stickerBeanList = new ArrayList<StickerBean>();
 
-    public static StirckerFragment newInstance(EditImageActivity activity) {
-        StirckerFragment fragment = new StirckerFragment();
+    public static StickerFragment newInstance(EditImageActivity activity) {
+        StickerFragment fragment = new StickerFragment();
         fragment.activity = activity;
         return fragment;
     }

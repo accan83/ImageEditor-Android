@@ -1,10 +1,5 @@
 package com.kapoocino.camera.editimage.adapter;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
@@ -15,7 +10,12 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.kapoocino.camera.R;
-import com.kapoocino.camera.editimage.fragment.StirckerFragment;
+import com.kapoocino.camera.editimage.fragment.StickerFragment;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -26,13 +26,13 @@ import com.kapoocino.camera.editimage.fragment.StirckerFragment;
  */
 public class StickerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
-	private StirckerFragment mStirckerFragment;
+	private StickerFragment mStickerFragment;
 	private ImageClick mImageClick;
 	private List<String> pathList = new ArrayList<String>();// 图片路径列表
 
-	public StickerAdapter(StirckerFragment fragment) {
+	public StickerAdapter(StickerFragment fragment) {
 		super();
-		this.mStirckerFragment = fragment;
+		this.mStickerFragment = fragment;
 	}
 
 	public class ImageHolder extends ViewHolder {
@@ -68,7 +68,7 @@ public class StickerAdapter extends RecyclerView.Adapter<ViewHolder> {
 		ImageHolder imageHoler = (ImageHolder) holder;
 		String path = pathList.get(position);
 		 System.out.println(path);
-		Glide.with(mStirckerFragment)
+		Glide.with(mStickerFragment)
 				.load("file:///android_asset/" + path)
 				.into(imageHoler.image);
 //		ImageLoader.getInstance().displayImage("assets://" + path,
@@ -81,7 +81,7 @@ public class StickerAdapter extends RecyclerView.Adapter<ViewHolder> {
 	public void addStickerImages(String folderPath) {
 		pathList.clear();
 		try {
-			String[] files = mStirckerFragment.getActivity().getAssets()
+			String[] files = mStickerFragment.getActivity().getAssets()
 					.list(folderPath);
 			for (String name : files) {
 				pathList.add(folderPath + File.separator + name);
@@ -106,7 +106,7 @@ public class StickerAdapter extends RecyclerView.Adapter<ViewHolder> {
 		}
 		@Override
 		public void onClick(View v) {
-			mStirckerFragment.selectedStickerItem(path);
+			mStickerFragment.selectedStickerItem(path);
 		}
 	}// end inner class
 

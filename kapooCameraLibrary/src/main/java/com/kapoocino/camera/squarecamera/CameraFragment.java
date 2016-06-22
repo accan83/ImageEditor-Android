@@ -217,11 +217,11 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
 
         if (serializable == KapooOption.VIDEO_ONLY) {
             galleryPhotoBtn.setVisibility(View.GONE);
-            closeLeftBtn.setVisibility(View.VISIBLE);
+            closeRightBtn.setVisibility(View.VISIBLE);
         }
         else if (serializable == KapooOption.IMAGE_ONLY) {
             galleryVideoBtn.setVisibility(View.GONE);
-            closeRightBtn.setVisibility(View.VISIBLE);
+            closeLeftBtn.setVisibility(View.VISIBLE);
         }
     }
 

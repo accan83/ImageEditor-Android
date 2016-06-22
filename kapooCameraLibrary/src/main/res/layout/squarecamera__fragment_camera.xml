@@ -30,17 +30,17 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/camera_tools_view"
         android:layout_marginBottom="16dp"
-        android:layout_marginLeft="16dp"
-        android:src="@drawable/squarecamera__camera" />
+        android:layout_marginLeft="30dp"
+        android:src="@drawable/squarecamera__camera"/>
 
     <LinearLayout
         android:id="@+id/flash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_above="@+id/camera_tools_view"
+        android:layout_alignParentRight="true"
         android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginRight="30dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
 
@@ -48,9 +48,9 @@
             android:id="@+id/auto_flash_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:layout_gravity="center_vertical"
             android:text="Auto"
             android:textColor="@android:color/white"
             android:textSize="14sp"/>
@@ -59,59 +59,66 @@
             android:id="@+id/flash_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/squarecamera__toggle_flash" />
+            android:src="@drawable/squarecamera__toggle_flash"/>
 
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/camera_tools_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/camera_preview_view"
         android:layout_alignParentBottom="true"
-        android:padding="10dp"
-        android:orientation="horizontal"
+        android:layout_below="@id/camera_preview_view"
         android:background="@android:color/black"
-        android:gravity="center">
-
-
-        <ImageView
-            android:id="@+id/gallery_photo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/capture_photo"
-            android:layout_weight="2"/>
-
-        <ImageView
-            android:id="@+id/close_left"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/image_edit_back"
-            android:layout_weight="2"
-            android:visibility="gone"/>
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
 
         <ImageView
             android:id="@+id/capture_image_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/capture_photo"
-            android:layout_weight="1"/>
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/capture_photo"/>
 
         <ImageView
             android:id="@+id/gallery_video"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/capture_photo"
-            android:layout_weight="2"/>
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/video"/>
+
+        <ImageView
+            android:id="@+id/close_left"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/camera_close"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/gallery_photo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/gallery"/>
 
         <ImageView
             android:id="@+id/close_right"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/image_edit_back"
-            android:layout_weight="2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/camera_close"
             android:visibility="gone"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>
