@@ -15,19 +15,13 @@ import android.widget.ViewFlipper;
 
 import com.kapoocino.camera.BaseActivity;
 import com.kapoocino.camera.R;
-import com.kapoocino.camera.editimage.fragment.AddTextFragment;
-import com.kapoocino.camera.editimage.fragment.CropFragment;
 import com.kapoocino.camera.editimage.fragment.FliterListFragment;
 import com.kapoocino.camera.editimage.fragment.MainMenuFragment;
-import com.kapoocino.camera.editimage.fragment.RotateFragment;
-import com.kapoocino.camera.editimage.fragment.StirckerFragment;
-import com.kapoocino.camera.editimage.view.CropImageView;
-import com.kapoocino.camera.editimage.view.CustomViewPager;
-import com.kapoocino.camera.editimage.view.RotateImageView;
-import com.kapoocino.camera.editimage.view.StickerView;
-import com.kapoocino.camera.editimage.view.TextStickerView;
-import com.kapoocino.camera.editimage.view.imagezoom.ImageViewTouch;
+import com.kapoocino.camera.editimage.fragment.StickerFragment;
 import com.kapoocino.camera.editimage.utils.BitmapUtils;
+import com.kapoocino.camera.editimage.view.CustomViewPager;
+import com.kapoocino.camera.editimage.view.StickerView;
+import com.kapoocino.camera.editimage.view.imagezoom.ImageViewTouch;
 import com.kapoocino.camera.editimage.view.imagezoom.ImageViewTouchBase;
 
 /**
@@ -45,9 +39,6 @@ public class EditImageActivity extends BaseActivity {
 	public static final int MODE_NONE = 0;
 	public static final int MODE_STICKERS = 1;// 贴图模式
 	public static final int MODE_FILTER = 2;// 滤镜模式
-	public static final int MODE_CROP = 3;// 剪裁模式
-	public static final int MODE_ROTATE = 4;// 旋转模式
-    public static final int MODE_TEXT = 5;// 文字模式
 
 	public String filePath;// 需要编辑图片路径
 	public String saveFilePath;// 生成的新图片路径
@@ -65,18 +56,12 @@ public class EditImageActivity extends BaseActivity {
 	private View saveBtn;// 保存按钮
 
 	public StickerView mStickerView;// 贴图层View
-	public CropImageView mCropPanel;// 剪切操作控件
-	public RotateImageView mRotatePanel;// 旋转操作控件
-    public TextStickerView mTextStickerView;//文本贴图显示View
 
 	public CustomViewPager bottomGallery;// 底部gallery
 	private BottomGalleryAdapter mBottomGalleryAdapter;// 底部gallery
 	private MainMenuFragment mMainMenuFragment;// Menu
-	public StirckerFragment mStirckerFragment;// 贴图Fragment
+	public StickerFragment mStickerFragment;// 贴图Fragment
 	public FliterListFragment mFliterListFragment;// 滤镜FliterListFragment
-	private CropFragment mCropFragment;// 图片剪裁Fragment
-	public RotateFragment mRotateFragment;// 图片旋转Fragment
-    public AddTextFragment mAddTextFragment;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -117,9 +102,6 @@ public class EditImageActivity extends BaseActivity {
 		});
 
 		mStickerView = (StickerView) findViewById(R.id.sticker_panel);
-		mCropPanel = (CropImageView) findViewById(R.id.crop_panel);
-		mRotatePanel = (RotateImageView) findViewById(R.id.rotate_panel);
-        mTextStickerView = (TextStickerView) findViewById(R.id.text_sticker_panel);
 
 		// 底部gallery
 		bottomGallery = (CustomViewPager) findViewById(R.id.bottom_gallery);
@@ -127,11 +109,8 @@ public class EditImageActivity extends BaseActivity {
 		mMainMenuFragment = MainMenuFragment.newInstance(this);
 		mBottomGalleryAdapter = new BottomGalleryAdapter(
 				this.getSupportFragmentManager());
-		mStirckerFragment = StirckerFragment.newInstance(this);
+		mStickerFragment = StickerFragment.newInstance(this);
 		mFliterListFragment = FliterListFragment.newInstance(this);
-		mCropFragment = CropFragment.newInstance(this);
-		mRotateFragment = RotateFragment.newInstance(this);
-        mAddTextFragment = AddTextFragment.newInstance(this);
 		bottomGallery.setAdapter(mBottomGalleryAdapter);
 	}
 
@@ -151,16 +130,10 @@ public class EditImageActivity extends BaseActivity {
             switch (index){
                 case MainMenuFragment.INDEX:// 主菜单
                     return mMainMenuFragment;
-                case StirckerFragment.INDEX:// 贴图
-                    return mStirckerFragment;
+                case StickerFragment.INDEX:// 贴图
+                    return mStickerFragment;
                 case FliterListFragment.INDEX:// 滤镜
                     return mFliterListFragment;
-                case CropFragment.INDEX://剪裁
-                    return mCropFragment;
-                case RotateFragment.INDEX://旋转
-                    return mRotateFragment;
-                case AddTextFragment.INDEX://添加文字
-                    return mAddTextFragment;
             }//end switch
             return MainMenuFragment.newInstance(mContext);
 		}
@@ -215,13 +188,10 @@ public class EditImageActivity extends BaseActivity {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			switch (mode) {
 			case MODE_STICKERS:
-				mStirckerFragment.backToMain();
+				mStickerFragment.backToMain();
 				return true;
 			case MODE_FILTER:// 滤镜编辑状态
 				mFliterListFragment.backToMain();// 保存滤镜贴图
-				return true;
-			case MODE_ROTATE:// 旋转图片保存
-				mRotateFragment.backToMain();
 				return true;
 			}// end switch
 
@@ -249,13 +219,10 @@ public class EditImageActivity extends BaseActivity {
 		public void onClick(View v) {
 			switch (mode) {
 			case MODE_STICKERS:
-				mStirckerFragment.saveStickers();// 保存贴图
+				mStickerFragment.saveStickers();// 保存贴图
 				break;
 			case MODE_FILTER:// 滤镜编辑状态
 				mFliterListFragment.saveFilterImage();// 保存滤镜贴图
-				break;
-			case MODE_ROTATE:// 旋转图片保存
-				mRotateFragment.saveRotateImage();
 				break;
 			default:
 				break;

@@ -7,10 +7,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.kapoocino.camera.R;
-import com.kapoocino.camera.editimage.fragment.StirckerFragment;
+import com.kapoocino.camera.editimage.fragment.StickerFragment;
 
 
 /**
@@ -31,22 +30,20 @@ public class StickerTypeAdapter extends RecyclerView.Adapter<ViewHolder> {
             "stickers/shuzi", "stickers/biankuang", "stickers/zhiye"};
     public static final String[] stickerPathName = {"动物", "心情", "cos", "符号",
             "饰品", "春节", "文字", "数字", "边框", "职业"};
-    private StirckerFragment mStirckerFragment;
+    private StickerFragment mStickerFragment;
     private ImageClick mImageClick = new ImageClick();
 
-    public StickerTypeAdapter(StirckerFragment fragment) {
+    public StickerTypeAdapter(StickerFragment fragment) {
         super();
-        this.mStirckerFragment = fragment;
+        this.mStickerFragment = fragment;
     }
 
     public class ImageHolder extends ViewHolder {
         public ImageView icon;
-        public TextView text;
 
         public ImageHolder(View itemView) {
             super(itemView);
             this.icon = (ImageView) itemView.findViewById(R.id.icon);
-            this.text = (TextView) itemView.findViewById(R.id.text);
         }
     }// end inner class
 
@@ -65,22 +62,18 @@ public class StickerTypeAdapter extends RecyclerView.Adapter<ViewHolder> {
         View v = null;
         v = LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.view_sticker_type_item, null);
-        ImageHolder holer = new ImageHolder(v);
-        return holer;
+        ImageHolder holder = new ImageHolder(v);
+        return holder;
     }
 
     /**
      */
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        ImageHolder imageHoler = (ImageHolder) holder;
-        // imageHoler.icon.setImageResource(R.drawable.ic_launcher);
-        String name = stickerPathName[position];
-        imageHoler.text.setText(name);
-        // TODO
-        imageHoler.icon.setImageResource(typeIcon[position]);
-        imageHoler.icon.setTag(stickerPath[position]);
-        imageHoler.icon.setOnClickListener(mImageClick);
+        ImageHolder imageHolder = (ImageHolder) holder;
+        imageHolder.icon.setImageResource(typeIcon[position]);
+        imageHolder.icon.setTag(stickerPath[position]);
+        imageHolder.icon.setOnClickListener(mImageClick);
     }
 
     /**
@@ -93,7 +86,7 @@ public class StickerTypeAdapter extends RecyclerView.Adapter<ViewHolder> {
         public void onClick(View v) {
             String data = (String) v.getTag();
             // System.out.println("data---->" + data);
-            mStirckerFragment.swipToStickerDetails(data);
+            mStickerFragment.swipToStickerDetails(data);
         }
     }// end inner class
 }// end class
