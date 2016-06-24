@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import com.bumptech.glide.Glide;
 import com.isseiaoki.simplecropview.CropImageView;
+import com.kapoocino.camera.KapooCamera;
 import com.kapoocino.camera.R;
 
 import java.io.ByteArrayOutputStream;
@@ -28,16 +29,13 @@ public class CropActivity extends AppCompatActivity {
         setContentView(R.layout.activity_crop);
         final CropImageView cropImageView = (CropImageView)findViewById(R.id.cropImageView);
         Button btnCrop = (Button) findViewById(R.id.btnCrop);
-        String filepath = getIntent().getStringExtra("filepath");
+
+        Log.d("---DEBUG---", "onPictureTaken: ");
+        byte[] byteArray = getIntent().getByteArrayExtra("byteArray");
+        Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+
         if (cropImageView != null) {
-            InputStream image_stream;
-            try {
-                image_stream = getContentResolver().openInputStream(Uri.parse("file://" + filepath));
-                Bitmap bitmap= BitmapFactory.decodeStream(image_stream);
-                cropImageView.setImageBitmap(bitmap);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            cropImageView.setImageBitmap(bitmap);
         }
 
         if (btnCrop != null) {
