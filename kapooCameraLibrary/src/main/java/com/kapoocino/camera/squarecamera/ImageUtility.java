@@ -22,7 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Created by desmond on 24/10/14.
+ * Created by desmond on 24/10/14. Edited by accan on 25/06/16
  */
 public class ImageUtility {
 
@@ -56,7 +56,19 @@ public class ImageUtility {
         return bitmap;
     }
 
-    public static Bitmap doSquare(Context context, Bitmap bitmap) {
+    public static Bitmap scaleDownBitmap(Bitmap photo, int newHeight, Context context) {
+
+        final float densityMultiplier = context.getResources().getDisplayMetrics().density;
+
+        int h= (int) (newHeight*densityMultiplier);
+        int w= (int) (h * photo.getWidth()/((double) photo.getHeight()));
+
+        photo=Bitmap.createScaledBitmap(photo, w, h, true);
+
+        return photo;
+    }
+
+    public static Bitmap doSquare(Bitmap bitmap) {
         int cropHeight;
         if (bitmap.getHeight() > bitmap.getWidth()) cropHeight = bitmap.getWidth();
         else                                        cropHeight = bitmap.getHeight();
@@ -66,11 +78,6 @@ public class ImageUtility {
     }
 
     public static Uri savePicture(Context context, Bitmap bitmap) {
-        int cropHeight;
-        if (bitmap.getHeight() > bitmap.getWidth()) cropHeight = bitmap.getWidth();
-        else                                        cropHeight = bitmap.getHeight();
-
-        bitmap = ThumbnailUtils.extractThumbnail(bitmap, cropHeight, cropHeight, ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
 
         File mediaStorageDir = new File(
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),

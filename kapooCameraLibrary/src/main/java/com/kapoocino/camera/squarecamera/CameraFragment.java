@@ -229,25 +229,6 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
         }
     }
 
-    private Bitmap rotatePicture(int rotation, byte[] data) {
-        Bitmap bitmap = ImageUtility.decodeSampledBitmapFromByte(getActivity(), data);
-//        Log.d(TAG, "original bitmap width " + bitmap.getWidth() + " height " + bitmap.getHeight());
-        if (rotation != 0) {
-            Bitmap oldBitmap = bitmap;
-
-            Matrix matrix = new Matrix();
-            matrix.postRotate(rotation);
-
-            bitmap = Bitmap.createBitmap(
-                    oldBitmap, 0, 0, oldBitmap.getWidth(), oldBitmap.getHeight(), matrix, false
-            );
-
-            oldBitmap.recycle();
-        }
-
-        return bitmap;
-    }
-
     private void setupFlashMode() {
         View view = getView();
         if (view == null) return;
@@ -566,41 +547,18 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
     @Override
     public void onPictureTaken(byte[] data, Camera camera) {
         int rotation = getPhotoRotation();
-//        Log.d(TAG, "normal orientation: " + orientation);
-//        Log.d(TAG, "Rotate Picture by: " + rotation);
-//        getFragmentManager()
-//                .beginTransaction()
-//                .replace(
-//                        R.id.fragment_container,
-//                        EditSavePhotoFragment.newInstance(data, rotation, mImageParameters.createCopy()),
-//                        EditSavePhotoFragment.TAG)
-//                .addToBackStack(null)
-//                .commit();
 
-        Bitmap bitmap = rotatePicture(rotation, data);
-        bitmap = ImageUtility.doSquare(getActivity(), bitmap);
-        bitmap = scaleDownBitmap(bitmap, 200, getActivity());
-//        Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+        Bitmap bitmap = ImageUtility.rotatePicture(getActivity(), rotation, data);
+        bitmap = ImageUtility.doSquare(bitmap);
+        bitmap = ImageUtility.scaleDownBitmap(bitmap, 200, getActivity());
+
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] byteArray = stream.toByteArray();
-        Log.d("---" + TAG + "---", "onPictureTaken: ");
 
         KapooCamera.cropCamera(getActivity(), byteArray);
 
         setSafeToTakePhoto(true);
-    }
-
-    private Bitmap scaleDownBitmap(Bitmap photo, int newHeight, Context context) {
-
-        final float densityMultiplier = context.getResources().getDisplayMetrics().density;
-
-        int h= (int) (newHeight*densityMultiplier);
-        int w= (int) (h * photo.getWidth()/((double) photo.getHeight()));
-
-        photo=Bitmap.createScaledBitmap(photo, w, h, true);
-
-        return photo;
     }
 
     private int getPhotoRotation() {
