@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ViewFlipper;
 
 import com.kapoocino.camera.BaseActivity;
+import com.kapoocino.camera.KapooCamera;
 import com.kapoocino.camera.R;
 import com.kapoocino.camera.editimage.EditImageActivity;
 import com.kapoocino.camera.editimage.adapter.StickerAdapter;
@@ -139,7 +140,7 @@ public class StickerFragment extends Fragment {
 
         public LoadStickersTask() {
             super();
-            loadDialog = BaseActivity.getLoadingDialog(getActivity(), "正在载入贴图数据...", false);
+            loadDialog = BaseActivity.newLoadingDialog(getActivity(), "Please Wait...", false);
         }
 
         @Override
@@ -283,7 +284,7 @@ public class StickerFragment extends Fragment {
                 item.matrix.postConcat(m);// 乘以底部图片变化矩阵
                 canvas.drawBitmap(item.bitmap, item.matrix, null);
             }// end for
-            saveBitmap(resultBit, activity.saveFilePath);
+//            saveBitmap(resultBit, activity.saveFilePath);
             return resultBit;
         }
 
@@ -304,6 +305,7 @@ public class StickerFragment extends Fragment {
         protected void onPostExecute(Bitmap result) {
             super.onPostExecute(result);
             mStickerView.clear();
+            KapooCamera.addHistory(result);
             activity.changeMainBitmap(result);
             dialog.dismiss();
         }
@@ -311,7 +313,7 @@ public class StickerFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog = BaseActivity.getLoadingDialog(getActivity(), "图片合成保存中...",
+            dialog = BaseActivity.newLoadingDialog(getActivity(), "Please Wait...",
                     false);
             dialog.show();
         }

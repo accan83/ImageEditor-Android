@@ -13,8 +13,10 @@ import android.widget.Button;
 
 import com.bumptech.glide.Glide;
 import com.isseiaoki.simplecropview.CropImageView;
+import com.kapoocino.camera.BaseActivity;
 import com.kapoocino.camera.KapooCamera;
 import com.kapoocino.camera.R;
+import com.kapoocino.camera.squarecamera.ImageUtility;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -30,11 +32,12 @@ public class CropActivity extends AppCompatActivity {
         final CropImageView cropImageView = (CropImageView)findViewById(R.id.cropImageView);
         Button btnCrop = (Button) findViewById(R.id.btnCrop);
 
-        Log.d("---DEBUG---", "onPictureTaken: ");
-        byte[] byteArray = getIntent().getByteArrayExtra("byteArray");
-        Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-
         if (cropImageView != null) {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            KapooCamera.bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+
             cropImageView.setImageBitmap(bitmap);
         }
 
@@ -43,18 +46,15 @@ public class CropActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if (cropImageView != null) {
-                        Bitmap croppedPhoto = cropImageView.getCroppedBitmap();
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        croppedPhoto.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                        byte[] byteArray = stream.toByteArray();
+                        KapooCamera.bitmap = cropImageView.getCroppedBitmap();
 
                         Intent intent=new Intent();
-                        intent.putExtra("overlay",byteArray);
                         setResult(RESULT_OK, intent);
                         finish();
                     }
                 }
             });
         }
+        BaseActivity.getLoadingDialog().dismiss();
     }
 }

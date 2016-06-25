@@ -47,7 +47,7 @@ public class ImagesFragment extends Fragment {
 						MediaStore.Images.Media.BUCKET_ID + " = ?",
 						new String[] { String.valueOf(getArguments().getInt(
 								"bucket")) },
-						MediaStore.Images.Media.DATE_MODIFIED + " ASC");
+						MediaStore.Images.Media.DATE_MODIFIED + " DESC");
 
 		final List<GridItem> images = new ArrayList<GridItem>(cur.getCount());
 
@@ -68,9 +68,7 @@ public class ImagesFragment extends Fragment {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				((SelectPictureActivity) getActivity()).imageSelected(images
-						.get(position).path,images
-						.get(position).imageTaken,images
-						.get(position).imageSize);
+						.get(position).path);
 			}
 		});
 		return v;

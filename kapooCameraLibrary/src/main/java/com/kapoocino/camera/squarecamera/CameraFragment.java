@@ -30,6 +30,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kapoocino.camera.BaseActivity;
 import com.kapoocino.camera.KapooCamera;
 import com.kapoocino.camera.KapooOption;
 import com.kapoocino.camera.R;
@@ -548,15 +549,13 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
     public void onPictureTaken(byte[] data, Camera camera) {
         int rotation = getPhotoRotation();
 
+        BaseActivity.newLoadingDialog(getActivity(), "Please Wait...",
+                false);
+        BaseActivity.getLoadingDialog().show();
+
         Bitmap bitmap = ImageUtility.rotatePicture(getActivity(), rotation, data);
         bitmap = ImageUtility.doSquare(bitmap);
-        bitmap = ImageUtility.scaleDownBitmap(bitmap, 200, getActivity());
-
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
-
-        KapooCamera.cropCamera(getActivity(), byteArray);
+        KapooCamera.cropCamera(getActivity(), bitmap);
 
         setSafeToTakePhoto(true);
     }

@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
+import com.kapoocino.camera.BaseActivity;
 import com.kapoocino.camera.KapooCamera;
 import com.kapoocino.camera.R;
 
@@ -56,11 +57,6 @@ public class CameraActivity extends AppCompatActivity {
         String filepath = data.getStringExtra("imgPath");
         Log.d(TAG, "handleSelectImage: " + filepath);
         KapooCamera.cropCamera(this, Uri.parse(filepath));
-//        returnPhotoUri(Uri.parse(filepath));
-//        path = filepath;
-        // System.out.println("path---->"+path);
-//        LoadImageTask task = new LoadImageTask();
-//        task.execute(path);
     }
 
     @Override

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
     private final class EditImageClick implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            if (TextUtils.isEmpty(path)) {
+            if (TextUtils.isEmpty(path) && KapooCamera.bitmap == null) {
                 Toast.makeText(MainActivity.this, R.string.no_choose, Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -132,10 +133,6 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case TAKE_PHOTO_CODE://
                     handleTakePhoto(data);
-//                    Uri photoUri = data.getData();
-//                    // Get the bitmap in according to the width of the device
-//                    Bitmap bitmap = getSampledBitmap(photoUri.getPath(), imageWidth, imageHeight);
-//                    imgView.setImageBitmap(bitmap);
                     break;
                 case ACTION_REQUEST_EDITIMAGE://
                     handleEditorImage(data);
@@ -161,9 +158,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void handleTakePhoto(Intent data) {
-        byte[] byteArray = data.getByteArrayExtra("overlay");
-        Bitmap current_bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-        imgView.setImageBitmap(current_bmp);
+        Log.d("---HEIGHT---", "onLoad: " + KapooCamera.bitmap.getHeight());
+        Log.d("---WIDTH---", "onLoad: " + KapooCamera.bitmap.getWidth());
+
+        imgView.setImageBitmap(KapooCamera.bitmap);
     }
 
     private final class LoadImageTask extends AsyncTask<String, Void, Bitmap> {

@@ -39,15 +39,16 @@ public class SelectPictureActivity extends BaseActivity {
                 .replace(android.R.id.content, f).addToBackStack(null).commit();
     }
 
-    void imageSelected(final String imgPath, final String imgTaken, final long imageSize) {
-        returnResult(imgPath, imgTaken, imageSize);
+    void imageSelected(final String imgPath) {
+        returnResult(imgPath);
     }
 
-    private void returnResult(final String imgPath, final String imageTaken, final long imageSize) {
+    private void returnResult(final String imgPath) {
+        BaseActivity.newLoadingDialog(this, "Please Wait...",
+                false);
+        BaseActivity.getLoadingDialog().show();
         Intent result = new Intent();
         result.putExtra("imgPath", imgPath);
-        result.putExtra("dateTaken", imageTaken);
-        result.putExtra("imageSize", imageSize);
         setResult(RESULT_OK, result);
         finish();
     }

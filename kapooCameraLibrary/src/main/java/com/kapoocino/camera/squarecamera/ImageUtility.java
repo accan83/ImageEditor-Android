@@ -118,11 +118,25 @@ public class ImageUtility {
         return fileContentUri;
     }
 
-    public static Bitmap decodeSampledBitmapFromPath(String path, int reqWidth, int reqHeight) {
+    public static Bitmap decodeSampledBitmapFromPath(Context context, Uri path) {
+        Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+
+        int reqWidth, reqHeight;
+        Point point = new Point();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            display.getSize(point);
+            reqWidth = point.x;
+            reqHeight = point.y;
+        } else {
+            reqWidth = display.getWidth();
+            reqHeight = display.getHeight();
+        }
+
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         options.inMutable = true;
-        options.inBitmap = BitmapFactory.decodeFile(path, options);
+        options.inBitmap = BitmapFactory.decodeFile(path.getPath(), options);
 
         options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
 
@@ -134,7 +148,7 @@ public class ImageUtility {
         options.inPurgeable = true;
         options.inInputShareable = true;
 
-        return BitmapFactory.decodeFile(path, options);
+        return BitmapFactory.decodeFile(path.getPath(), options);
     }
     /**
      * Decode and sample down a bitmap from a byte stream

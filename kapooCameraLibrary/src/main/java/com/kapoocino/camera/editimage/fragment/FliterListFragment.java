@@ -150,8 +150,8 @@ public class FliterListFragment extends Fragment {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			dialog = EditImageActivity.getLoadingDialog(getActivity(),
-					"image processing...", false);
+			dialog = BaseActivity.newLoadingDialog(getActivity(),
+					"Please Wait...", false);
 			dialog.show();
 		}
 	}// end inner class
@@ -283,7 +283,7 @@ public class FliterListFragment extends Fragment {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			dialog = BaseActivity.getLoadingDialog(getActivity(), "图片处理中...",
+			dialog = BaseActivity.newLoadingDialog(getActivity(), "Please Wait...",
 					false);
 			dialog.show();
 		}

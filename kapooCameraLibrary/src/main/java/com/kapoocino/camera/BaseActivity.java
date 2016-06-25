@@ -6,12 +6,17 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 
 public class BaseActivity extends AppCompatActivity {
+    private static ProgressDialog dialog;
 
-    public static Dialog getLoadingDialog(Context context, String title,
+    public static Dialog newLoadingDialog(Context context, String title,
                                           boolean canCancel) {
-        ProgressDialog dialog = new ProgressDialog(context);
+        dialog = new ProgressDialog(context);
         dialog.setCancelable(canCancel);
         dialog.setMessage(title);
+        return dialog;
+    }
+
+    public static Dialog getLoadingDialog() {
         return dialog;
     }
 }

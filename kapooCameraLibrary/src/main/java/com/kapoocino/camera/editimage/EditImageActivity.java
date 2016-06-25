@@ -14,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.widget.ViewFlipper;
 
 import com.kapoocino.camera.BaseActivity;
+import com.kapoocino.camera.KapooCamera;
 import com.kapoocino.camera.R;
 import com.kapoocino.camera.editimage.fragment.FliterListFragment;
 import com.kapoocino.camera.editimage.fragment.MainMenuFragment;
@@ -67,6 +68,7 @@ public class EditImageActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 //		checkInitImageLoader();
+		KapooCamera.clearHistory();
 		setContentView(R.layout.activity_image_edit);
 		initView();
 		getData();
@@ -153,8 +155,17 @@ public class EditImageActivity extends BaseActivity {
 		if (mLoadImageTask != null) {
 			mLoadImageTask.cancel(true);
 		}
-		mLoadImageTask = new LoadImageTask();
-		mLoadImageTask.execute(filepath);
+
+		if (filepath != null && !filepath.isEmpty()) {
+			mLoadImageTask = new LoadImageTask();
+			mLoadImageTask.execute(filepath);
+		}
+		else {
+			mainBitmap = KapooCamera.bitmap.copy(KapooCamera.bitmap.getConfig(), KapooCamera.bitmap.isMutable());
+			KapooCamera.addHistory(mainBitmap);
+			mainImage.setImageBitmap(mainBitmap);
+			mainImage.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
+		}
 	}
 
 	private final class LoadImageTask extends AsyncTask<String, Void, Bitmap> {
@@ -204,8 +215,13 @@ public class EditImageActivity extends BaseActivity {
 	 * 强制推出
 	 */
 	private void forceReturnBack() {
-		setResult(RESULT_CANCELED);
-		this.finish();
+		if (mode == MODE_NONE) {
+			setResult(RESULT_CANCELED);
+			this.finish();
+		}
+		else {
+			changeMainBitmap(KapooCamera.getLastHistory());
+		}
 	}
 
 	/**
