@@ -1,46 +1,19 @@
 package com.kapoocino.imageeditandroid;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import com.kapoocino.camera.BaseActivity;
 import com.kapoocino.camera.KapooCamera;
 import com.kapoocino.camera.KapooOption;
-import com.kapoocino.camera.editimage.EditImageActivity;
-import com.kapoocino.camera.picchooser.SelectPictureActivity;
-import com.kapoocino.camera.squarecamera.CameraActivity;
-
-import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
-    public static final int SELECT_GALLERY_IMAGE_CODE = 7;
     public static final int TAKE_PHOTO_CODE = 8;
-    public static final int ACTION_REQUEST_EDITIMAGE = 9;
-    public static final int ACTION_STICKERS_IMAGE = 10;
-    private MainActivity context;
     private ImageView imgView;
-    private View openAblum;
-    private View editImage;//
-    private View takePhoto, takeVideo, takePhotoVideo;
-    private View stickersImage;//
-    private Bitmap mainBitmap;
-    public Uri mImageUri;//
-    public String mOutputFilePath;//
-    private int imageWidth, imageHeight;//
-    private String path;
+    private TextView txtPath;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,185 +23,57 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        context = this;
-        DisplayMetrics metrics = getResources().getDisplayMetrics();
-        imageWidth = (int) ((float) metrics.widthPixels / 1.5);
-        imageHeight = (int) ((float) metrics.heightPixels / 1.5);
-
         imgView = (ImageView) findViewById(R.id.img);
-        openAblum = findViewById(R.id.select_ablum);
-        editImage = findViewById(R.id.edit_image);
-        takePhoto = findViewById(R.id.take_photo);
-        takeVideo = findViewById(R.id.take_video);
-        takePhotoVideo = findViewById(R.id.take_image_video);
+        txtPath = (TextView) findViewById(R.id.txtPath);
+        View takePhoto = findViewById(R.id.take_photo);
+        View takeVideo = findViewById(R.id.take_video);
+        View takePhotoVideo = findViewById(R.id.take_image_video);
 
-        openAblum.setOnClickListener(new SelectClick());
-        editImage.setOnClickListener(new EditImageClick());
-        takePhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launchCamera(KapooOption.IMAGE_ONLY);
-            }
-        });
-        takeVideo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launchCamera(KapooOption.VIDEO_ONLY);
-            }
-        });
-        takePhotoVideo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                launchCamera(KapooOption.IMAGE_AND_VIDEO);
-            }
-        });
+        if (takePhoto != null) {
+            takePhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    launchCamera(KapooOption.IMAGE_ONLY);
+                }
+            });
+        }
+
+        if (takeVideo != null) {
+            takeVideo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    launchCamera(KapooOption.VIDEO_ONLY);
+                }
+            });
+        }
+
+        if (takePhotoVideo != null) {
+            takePhotoVideo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    launchCamera(KapooOption.IMAGE_AND_VIDEO);
+                }
+            });
+        }
     }
 
     private void launchCamera(KapooOption type) {
         KapooCamera.openCamera(this, type);
     }
 
-    /**
-     * 编辑选择的图片
-     *
-     * @author panyi
-     */
-    private final class EditImageClick implements View.OnClickListener {
-        @Override
-        public void onClick(View v) {
-            if (TextUtils.isEmpty(path) && KapooCamera.bitmap == null) {
-                Toast.makeText(MainActivity.this, R.string.no_choose, Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            Intent it = new Intent(MainActivity.this, EditImageActivity.class);
-            it.putExtra(EditImageActivity.FILE_PATH, path);
-            File outputFile = FileUtils.getEmptyFile("tietu"
-                    + System.currentTimeMillis() + ".jpg");
-            it.putExtra(EditImageActivity.EXTRA_OUTPUT,
-                    outputFile.getAbsolutePath());
-            MainActivity.this.startActivityForResult(it,
-                    ACTION_REQUEST_EDITIMAGE);
-        }
-    }// end inner class
-
-    private final class SelectClick implements View.OnClickListener {
-        @Override
-        public void onClick(View v) {
-            MainActivity.this.startActivityForResult(new Intent(
-                            MainActivity.this, SelectPictureActivity.class),
-                    SELECT_GALLERY_IMAGE_CODE);
-//            KapooCamera.cropCamera(MainActivity.this, Uri.parse(path));
-        }
-    }// end inner class
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            // System.out.println("RESULT_OK");
             switch (requestCode) {
-                case SELECT_GALLERY_IMAGE_CODE://
-                    handleSelectFromAblum(data);
-                    break;
-                case TAKE_PHOTO_CODE://
-                    handleTakePhoto(data);
-                    break;
-                case ACTION_REQUEST_EDITIMAGE://
-                    handleEditorImage(data);
+                case TAKE_PHOTO_CODE:
+                    txtPath.setText(data.getStringExtra("filepath"));
+                    if (data.getLongExtra("filesize", 0) > 0) {
+                        txtPath.setText(txtPath.getText() + ";;" + String.valueOf(data.getLongExtra("filesize", 0)));
+                    }
+                    imgView.setImageBitmap(KapooCamera.bitmap);
                     break;
             }// end switch
         }
-    }
-
-    private void handleEditorImage(Intent data) {
-        String newFilePath = data.getStringExtra("save_file_path");
-        Toast.makeText(this, "new image path: " + newFilePath, Toast.LENGTH_LONG).show();
-        //System.out.println("newFilePath---->" + newFilePath);
-        LoadImageTask loadTask = new LoadImageTask();
-        loadTask.execute(newFilePath);
-    }
-
-    private void handleSelectFromAblum(Intent data) {
-        String filepath = data.getStringExtra("imgPath");
-        path = filepath;
-        // System.out.println("path---->"+path);
-        LoadImageTask task = new LoadImageTask();
-        task.execute(path);
-    }
-
-    private void handleTakePhoto(Intent data) {
-        Log.d("---HEIGHT---", "onLoad: " + KapooCamera.bitmap.getHeight());
-        Log.d("---WIDTH---", "onLoad: " + KapooCamera.bitmap.getWidth());
-
-        imgView.setImageBitmap(KapooCamera.bitmap);
-    }
-
-    private final class LoadImageTask extends AsyncTask<String, Void, Bitmap> {
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            return getSampledBitmap(params[0], imageWidth, imageHeight);
-        }
-
-        @Override
-        protected void onCancelled() {
-            super.onCancelled();
-        }
-
-        @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-        @Override
-        protected void onCancelled(Bitmap result) {
-            super.onCancelled(result);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap result) {
-            super.onPostExecute(result);
-            if (mainBitmap != null) {
-                mainBitmap.recycle();
-                mainBitmap = null;
-                System.gc();
-            }
-            mainBitmap = result;
-            imgView.setImageBitmap(mainBitmap);
-        }
-    }// end inner class
-
-    public static Bitmap getSampledBitmap(String filePath, int reqWidth,
-                                          int reqHeight) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-
-        BitmapFactory.decodeFile(filePath, options);
-
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-            if (width > height) {
-                inSampleSize = (int) Math
-                        .floor(((float) height / reqHeight) + 0.5f); // Math.round((float)height
-                // /
-                // (float)reqHeight);
-            } else {
-                inSampleSize = (int) Math
-                        .floor(((float) width / reqWidth) + 0.5f); // Math.round((float)width
-                // /
-                // (float)reqWidth);
-            }
-        }
-        // System.out.println("inSampleSize--->"+inSampleSize);
-
-        options.inSampleSize = inSampleSize;
-        options.inJustDecodeBounds = false;
-
-        return BitmapFactory.decodeFile(filePath, options);
     }
 }//end class

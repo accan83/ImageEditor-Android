@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,6 +25,8 @@ import com.kapoocino.camera.editimage.view.CustomViewPager;
 import com.kapoocino.camera.editimage.view.StickerView;
 import com.kapoocino.camera.editimage.view.imagezoom.ImageViewTouch;
 import com.kapoocino.camera.editimage.view.imagezoom.ImageViewTouchBase;
+
+import java.util.Date;
 
 /**
  * 图片编辑 主页面
@@ -75,9 +78,10 @@ public class EditImageActivity extends BaseActivity {
 	}
 
 	private void getData() {
-		filePath = getIntent().getStringExtra(FILE_PATH);
+//		filePath = getIntent().getStringExtra(FILE_PATH);
 		saveFilePath = getIntent().getStringExtra(EXTRA_OUTPUT);// 保存图片路径
-		loadImage(filePath);
+//		loadImage(filePath);
+		loadImage();
 	}
 
 	private void initView() {
@@ -149,23 +153,13 @@ public class EditImageActivity extends BaseActivity {
 	/**
 	 * 异步载入编辑图片
 	 * 
-	 * @param filepath
+	 * @param
 	 */
-	public void loadImage(String filepath) {
-		if (mLoadImageTask != null) {
-			mLoadImageTask.cancel(true);
-		}
-
-		if (filepath != null && !filepath.isEmpty()) {
-			mLoadImageTask = new LoadImageTask();
-			mLoadImageTask.execute(filepath);
-		}
-		else {
-			mainBitmap = KapooCamera.bitmap.copy(KapooCamera.bitmap.getConfig(), KapooCamera.bitmap.isMutable());
-			KapooCamera.addHistory(mainBitmap);
-			mainImage.setImageBitmap(mainBitmap);
-			mainImage.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
-		}
+	public void loadImage() {
+		mainBitmap = KapooCamera.bitmap.copy(KapooCamera.bitmap.getConfig(), KapooCamera.bitmap.isMutable());
+		KapooCamera.addHistory(mainBitmap);
+		mainImage.setImageBitmap(mainBitmap);
+		mainImage.setDisplayType(ImageViewTouchBase.DisplayType.FIT_TO_SCREEN);
 	}
 
 	private final class LoadImageTask extends AsyncTask<String, Void, Bitmap> {
@@ -255,8 +249,10 @@ public class EditImageActivity extends BaseActivity {
 	private final class SaveBtnClick implements OnClickListener {
 		@Override
 		public void onClick(View v) {
+			KapooCamera.bitmap = mainBitmap.copy(mainBitmap.getConfig(), mainBitmap.isMutable());
+			String path = KapooCamera.saveBitmap(mainBitmap, saveFilePath);
 			Intent returnIntent = new Intent();
-			returnIntent.putExtra("save_file_path", saveFilePath);
+			returnIntent.putExtra("filepath", path);
 			mContext.setResult(RESULT_OK, returnIntent);
 			mContext.finish();
 		}

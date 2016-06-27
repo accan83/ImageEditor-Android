@@ -2,13 +2,24 @@
 package com.kapoocino.camera.picchooser;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
+import com.bumptech.glide.Glide;
 import com.kapoocino.camera.BaseActivity;
+import com.kapoocino.camera.KapooCamera;
+import com.kapoocino.camera.squarecamera.ImageUtility;
+
+import java.util.concurrent.ExecutionException;
 
 public class SelectVideoActivity extends BaseActivity {
+    Bitmap theBitmap = null;
+
     @Override
     protected void onCreate(final Bundle b) {
         super.onCreate(b);
@@ -38,16 +49,31 @@ public class SelectVideoActivity extends BaseActivity {
                 .replace(android.R.id.content, f).addToBackStack(null).commit();
     }
 
-    void imageSelected(final String imgPath, final String imgTaken, final long imageSize) {
-        returnResult(imgPath, imgTaken, imageSize);
+    void imageSelected(final String imgPath, long imgSize) {
+        returnResult(imgPath, imgSize);
     }
 
-    private void returnResult(final String imgPath, final String imageTaken, final long imageSize) {
-        Intent result = new Intent();
-        result.putExtra("vidPath", imgPath);
-        result.putExtra("dateTaken", imageTaken);
-        result.putExtra("imageSize", imageSize);
-        setResult(RESULT_OK, result);
-        finish();
+    private void returnResult(final String imgPath, final long imgSize) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                Looper.prepare();
+                try {
+                    theBitmap = Glide.with(SelectVideoActivity.this).load(imgPath).asBitmap().into(-1,-1).get();
+                } catch (final ExecutionException | InterruptedException ignore) {}
+                return null;
+            }
+            @Override
+            protected void onPostExecute(Void dummy) {
+                if (theBitmap != null) {
+                    KapooCamera.bitmap = theBitmap;
+                    Intent result = new Intent();
+                    result.putExtra("filepath", imgPath);
+                    result.putExtra("filesize", imgSize);
+                    setResult(RESULT_OK, result);
+                    finish();
+                };
+            }
+        }.execute();
     }
 }

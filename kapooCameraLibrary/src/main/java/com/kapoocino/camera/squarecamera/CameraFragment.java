@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.hardware.Camera.CameraInfo;
 import android.hardware.Camera.Size;
@@ -35,7 +33,6 @@ import com.kapoocino.camera.KapooCamera;
 import com.kapoocino.camera.KapooOption;
 import com.kapoocino.camera.R;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
@@ -555,7 +552,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
 
         Bitmap bitmap = ImageUtility.rotatePicture(getActivity(), rotation, data);
         bitmap = ImageUtility.doSquare(bitmap);
-        KapooCamera.cropCamera(getActivity(), bitmap);
+        KapooCamera.cropImage(getActivity(), bitmap);
 
         setSafeToTakePhoto(true);
     }

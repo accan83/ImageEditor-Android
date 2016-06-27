@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -47,9 +48,6 @@ import java.util.List;
 public class StickerFragment extends Fragment {
     public static final int INDEX = 1;
 
-    public static final String TAG = StickerFragment.class.getName();
-    public static final String STICKER_FOLDER = "stickers";
-
     private View mainView;
     private EditImageActivity activity;
     private ViewFlipper flipper;
@@ -59,9 +57,6 @@ public class StickerFragment extends Fragment {
     private View backToType;// 返回类型选择
     private StickerView mStickerView;// 贴图显示控件
     private StickerAdapter mStickerAdapter;// 贴图列表适配器
-
-    private LoadStickersTask mLoadStickersTask;
-    private List<StickerBean> stickerBeanList = new ArrayList<StickerBean>();
 
     public static StickerFragment newInstance(EditImageActivity activity) {
         StickerFragment fragment = new StickerFragment();
@@ -122,71 +117,6 @@ public class StickerFragment extends Fragment {
         });
     }
 
-    //导入贴图数据
-    private void loadStickersData() {
-        if (mLoadStickersTask != null) {
-            mLoadStickersTask.cancel(true);
-        }
-        mLoadStickersTask = new LoadStickersTask();
-        mLoadStickersTask.execute(1);
-    }
-
-
-    /**
-     * 导入贴图数据
-     */
-    private final class LoadStickersTask extends AsyncTask<Integer, Void, Void> {
-        private Dialog loadDialog;
-
-        public LoadStickersTask() {
-            super();
-            loadDialog = BaseActivity.newLoadingDialog(getActivity(), "Please Wait...", false);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            loadDialog.show();
-        }
-
-        @Override
-        protected Void doInBackground(Integer... params) {
-            stickerBeanList.clear();
-            AssetManager assetManager = getActivity().getAssets();
-            try {
-                String[] lists = assetManager.list(STICKER_FOLDER);
-                for (String parentPath : lists) {
-
-                }//end for each
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            loadDialog.dismiss();
-
-        }
-
-        @Override
-        protected void onCancelled() {
-            super.onCancelled();
-            loadDialog.dismiss();
-        }
-    }//end inner class
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mLoadStickersTask != null) {
-            mLoadStickersTask.cancel(true);
-        }
-    }
-
     /**
      * 跳转至贴图详情列表
      *
@@ -227,10 +157,6 @@ public class StickerFragment extends Fragment {
 
     public StickerView getmStickerView() {
         return mStickerView;
-    }
-
-    public void setmStickerView(StickerView mStickerView) {
-        this.mStickerView = mStickerView;
     }
 
     /**
@@ -277,14 +203,12 @@ public class StickerFragment extends Fragment {
             Matrix m = new Matrix();
             m.setValues(inverseMatrix.getValues());
 
-            LinkedHashMap<Integer, StickerItem> addItems = mStickerView
-                    .getBank();
+            LinkedHashMap<Integer, StickerItem> addItems = mStickerView.getBank();
             for (Integer id : addItems.keySet()) {
                 StickerItem item = addItems.get(id);
                 item.matrix.postConcat(m);// 乘以底部图片变化矩阵
                 canvas.drawBitmap(item.bitmap, item.matrix, null);
             }// end for
-//            saveBitmap(resultBit, activity.saveFilePath);
             return resultBit;
         }
 
@@ -326,29 +250,5 @@ public class StickerFragment extends Fragment {
         // System.out.println("保存 合成图片");
         SaveStickersTask task = new SaveStickersTask();
         task.execute(activity.mainBitmap);
-    }
-
-    /**
-     * 保存Bitmap图片到指定文件
-     *
-     * @param bm
-     * @param name
-     */
-    public static void saveBitmap(Bitmap bm, String filePath) {
-        File f = new File(filePath);
-        if (f.exists()) {
-            f.delete();
-        }
-        try {
-            FileOutputStream out = new FileOutputStream(f);
-            bm.compress(Bitmap.CompressFormat.PNG, 90, out);
-            out.flush();
-            out.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        // System.out.println("保存文件--->" + f.getAbsolutePath());
     }
 }// end class

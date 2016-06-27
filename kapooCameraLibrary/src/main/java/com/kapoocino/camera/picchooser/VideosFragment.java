@@ -69,7 +69,6 @@ public class VideosFragment extends Fragment {
 					int position, long id) {
 				((SelectVideoActivity) getActivity()).imageSelected(images
 						.get(position).path,images
-						.get(position).imageTaken,images
 						.get(position).imageSize);
 			}
 		});

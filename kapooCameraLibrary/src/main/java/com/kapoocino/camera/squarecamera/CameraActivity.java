@@ -1,18 +1,13 @@
 package com.kapoocino.camera.squarecamera;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 
-import com.kapoocino.camera.BaseActivity;
 import com.kapoocino.camera.KapooCamera;
 import com.kapoocino.camera.R;
-
-import java.io.Serializable;
 
 public class CameraActivity extends AppCompatActivity {
 
@@ -36,27 +31,10 @@ public class CameraActivity extends AppCompatActivity {
         }
     }
 
-    public void returnPhotoUri(Uri uri) {
-        Intent data = new Intent();
-        data.setData(uri);
-
-        if (getParent() == null) {
-            setResult(RESULT_OK, data);
-        } else {
-            getParent().setResult(RESULT_OK, data);
-        }
-
-        finish();
-    }
-
-    public void onCancel(View view) {
-        getSupportFragmentManager().popBackStack();
-    }
-
     private void handleSelectImage(Intent data) {
         String filepath = data.getStringExtra("imgPath");
         Log.d(TAG, "handleSelectImage: " + filepath);
-        KapooCamera.cropCamera(this, Uri.parse(filepath));
+        KapooCamera.cropImage(this, Uri.parse(filepath));
     }
 
     @Override
@@ -64,21 +42,23 @@ public class CameraActivity extends AppCompatActivity {
         if (resultCode != RESULT_OK) return;
 
         switch (requestCode) {
-            case 1:
-                Uri imageUri = data.getData();
-                break;
-
             case KapooCamera.SELECT_GALLERY_IMAGE_CODE:
                 handleSelectImage(data);
                 break;
 
             case KapooCamera.SELECT_GALLERY_VIDEO_CODE:
-                break;
-
-            case KapooCamera.CROP_IMAGE:
                 setResult(RESULT_OK, data);
                 finish();
                 break;
+
+            case KapooCamera.CROP_IMAGE:
+                KapooCamera.editImage(this);
+                break;
+            case KapooCamera.ACTION_REQUEST_EDIT_IMAGE:
+                setResult(RESULT_OK, data);
+                finish();
+                break;
+
 
             default:
                 super.onActivityResult(requestCode, resultCode, data);

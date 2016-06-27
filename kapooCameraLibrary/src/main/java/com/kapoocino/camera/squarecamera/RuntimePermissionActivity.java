@@ -22,12 +22,12 @@ public class RuntimePermissionActivity extends AppCompatActivity {
     public static final String REQUESTED_PERMISSION = "requested_permission";
     private static final int REQUEST_CODE = 1;
 
-    public static void startActivity(@NonNull final Fragment fragment,
+    public static void startActivity(@NonNull final Activity fragment,
                                      final int requestCode,
                                      @NonNull final String requestedPermission,
                                      final String... permissions) {
 
-        final Intent intent = new Intent(fragment.getActivity(), RuntimePermissionActivity.class);
+        final Intent intent = new Intent(fragment, RuntimePermissionActivity.class);
 
         final int capacity = 1 + (permissions != null ? permissions.length : 0);
         final ArrayList<String> requestedPermissions = new ArrayList<>(capacity);
