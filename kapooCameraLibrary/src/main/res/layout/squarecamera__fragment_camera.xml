@@ -26,42 +26,24 @@
 
     <ImageView
         android:id="@+id/change_camera"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_above="@+id/camera_tools_view"
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="30dp"
-        android:src="@drawable/squarecamera__camera"/>
+        android:src="@drawable/camera_front_icon"/>
 
-    <LinearLayout
-        android:id="@+id/flash"
-        android:layout_width="wrap_content"
+    <ImageView
+        android:id="@+id/flash_icon"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_above="@+id/camera_tools_view"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="16dp"
         android:layout_marginRight="30dp"
         android:gravity="center_horizontal"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/auto_flash_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:text="Auto"
-            android:textColor="@android:color/white"
-            android:textSize="14sp"/>
-
-        <ImageView
-            android:id="@+id/flash_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/squarecamera__toggle_flash"/>
-
-    </LinearLayout>
+        android:orientation="horizontal"
+        android:src="@drawable/flash_auto_icon"/>
 
     <RelativeLayout
         android:id="@+id/camera_tools_view"

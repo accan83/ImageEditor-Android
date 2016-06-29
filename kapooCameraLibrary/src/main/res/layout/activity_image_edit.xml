@@ -1,61 +1,78 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <FrameLayout
         android:id="@+id/banner"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="?attr/actionBarSize"
         android:layout_alignParentTop="true"
-        android:background="#333333">
+        android:background="@color/kapoocino_light">
 
-        <ImageView
-            android:id="@+id/back_btn"
+        <ViewFlipper
+            android:id="@+id/nav_flipper"
             android:layout_width="wrap_content"
-            android:layout_height="55dp"
-            android:layout_gravity="left|center_vertical"
-            android:layout_margin="10dp"
-            android:layout_marginLeft="0dp"
-            android:src="@drawable/back_arrow"/>
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:flipInterval="1000"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/back_btn"
+                android:layout_width="56dp"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/transparent"
+                android:src="@drawable/back_icon"/>
+
+            <ImageButton
+                android:id="@+id/undo_btn"
+                android:layout_width="56dp"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/transparent"
+                android:src="@drawable/undo_icon"/>
+
+        </ViewFlipper>
 
         <TextView
             android:id="@+id/title"
+            style="@style/NewTheme.Toolbar.Title"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
+            android:layout_gravity="left"
+            android:layout_marginLeft="56dp"
             android:gravity="center"
-            android:text="@string/app_name"
-            android:textColor="#ffffff"
-            android:textSize="20sp"/>
+            android:text="Edit Image"/>
 
         <ViewFlipper
             android:id="@+id/banner_flipper"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="right"
-            android:layout_marginRight="10dp"
             android:flipInterval="1000"
             android:gravity="center">
 
             <TextView
                 android:id="@+id/save_btn"
+                style="@style/NewTheme.Toolbar.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="@string/save"
-                android:textColor="#ffffff"
-                android:textSize="20sp"/>
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="@string/save"/>
 
             <TextView
                 android:id="@+id/apply"
+                style="@style/NewTheme.Toolbar.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
                 android:text="@string/apply"
-                android:textColor="#ffffff"
-                android:textSize="20sp"/>
+                android:textColor="@color/kapoocino_dark"
+                android:textSize="18sp"/>
 
         </ViewFlipper>
 

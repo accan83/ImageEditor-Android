@@ -26,7 +26,6 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.kapoocino.camera.BaseActivity;
 import com.kapoocino.camera.KapooCamera;
@@ -146,14 +145,16 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
             public void onClick(View v) {
                 if (mCameraID == CameraInfo.CAMERA_FACING_FRONT) {
                     mCameraID = getBackCameraID();
+                    swapCameraBtn.setImageResource(R.drawable.camera_front_icon);
                 } else {
                     mCameraID = getFrontCameraID();
+                    swapCameraBtn.setImageResource(R.drawable.camera_back_icon);
                 }
                 restartPreview();
             }
         });
 
-        final View changeCameraFlashModeBtn = view.findViewById(R.id.flash);
+        final View changeCameraFlashModeBtn = view.findViewById(R.id.flash_icon);
         changeCameraFlashModeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -231,13 +232,13 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
         View view = getView();
         if (view == null) return;
 
-        final TextView autoFlashIcon = (TextView) view.findViewById(R.id.auto_flash_icon);
+        final ImageView flashIcon = (ImageView) view.findViewById(R.id.flash_icon);
         if (Camera.Parameters.FLASH_MODE_AUTO.equalsIgnoreCase(mFlashMode)) {
-            autoFlashIcon.setText("Auto");
+            flashIcon.setImageResource(R.drawable.flash_auto_icon);
         } else if (Camera.Parameters.FLASH_MODE_ON.equalsIgnoreCase(mFlashMode)) {
-            autoFlashIcon.setText("On");
+            flashIcon.setImageResource(R.drawable.flash_on_icon);
         }  else if (Camera.Parameters.FLASH_MODE_OFF.equalsIgnoreCase(mFlashMode)) {
-            autoFlashIcon.setText("Off");
+            flashIcon.setImageResource(R.drawable.flash_off_icon);
         }
     }
 
@@ -398,7 +399,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
             parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
         }
 
-        final View changeCameraFlashModeBtn = getView().findViewById(R.id.flash);
+        final View changeCameraFlashModeBtn = getView().findViewById(R.id.flash_icon);
         List<String> flashModes = parameters.getSupportedFlashModes();
         if (flashModes != null && flashModes.contains(mFlashMode)) {
             parameters.setFlashMode(mFlashMode);

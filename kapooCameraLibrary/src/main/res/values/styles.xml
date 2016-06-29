@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="MyTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="colorPrimary">@color/kapoocino_light</item>
+        <item name="colorPrimaryDark">@color/kapoocino_dark</item>
+        <item name="colorAccent">@color/kapoocino_dark</item>
+    </style>
+
     <style name="squarecamera__CameraFullScreenTheme" parent="squarecamera__CameraFullScreenTheme.Base">
 
     </style>
@@ -25,4 +33,44 @@
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowIsFloating">true</item>
     </style>
+
+    <!-- new theme toolbar-->
+    <style name="NewTheme.Toolbar" parent="ThemeOverlay.AppCompat.ActionBar">
+        <!-- Customize color of navigation drawer icon and back arrow -->
+        <item name="colorControlNormal">@color/kapoocino_dark</item>
+        <item name="android:editTextColor">@color/kapoocino_dark</item>
+        <item name="android:textColorHint">@color/kapoocino_dark</item>
+    </style>
+
+    <style name="NewTheme.Toolbar.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <!-- Set proper title size -->
+        <item name="android:textSize">18sp</item>
+        <!-- Set title color -->
+        <item name="android:textColor">@color/kapoocino_dark</item>
+        <!--<item name="android:fontFamily">sans-serif-light</item>-->
+    </style>
+    <!-- end of new theme toolbar-->
+
+    <!--AppCompatAlertDialogStyle-->
+    <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/kapoocino_dark</item>
+    </style>
+    <!--end of AppCompatAlertDialogStyle-->
+
+    <!--button dark done-->
+    <style name="button_dark_done" parent="@android:style/Widget.Button">
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+        <item name="android:minWidth">88dp</item>
+        <item name="android:height">36dp</item>
+        <item name="android:textColor">@color/kapoocino_light</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:background">@drawable/button_kapoocino_dark</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <!--end of button dark done-->
 </resources>

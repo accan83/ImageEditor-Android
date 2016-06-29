@@ -18,18 +18,9 @@ import com.kapoocino.camera.editimage.fragment.StickerFragment;
  * @author panyi
  */
 public class StickerTypeAdapter extends RecyclerView.Adapter<ViewHolder> {
-    public static final int[] typeIcon = {R.drawable.stickers_type_animal,
-            R.drawable.stickers_type_motion, R.drawable.stickers_type_cos,
-            R.drawable.stickers_type_mark, R.drawable.stickers_type_decoration,
-            R.drawable.stickers_type_spring, R.drawable.stickers_type_text,
-            R.drawable.stickers_type_number, R.drawable.stickers_type_frame,
-            R.drawable.stickers_type_profession};
-    public static final String[] stickerPath = {"stickers/dongwu",
-            "stickers/xinqing", "stickers/cos", "stickers/fuhao",
-            "stickers/shipin", "stickers/chunjie", "stickers/wenzi",
-            "stickers/shuzi", "stickers/biankuang", "stickers/zhiye"};
-    public static final String[] stickerPathName = {"动物", "心情", "cos", "符号",
-            "饰品", "春节", "文字", "数字", "边框", "职业"};
+    public static final int[] typeIcon = {R.drawable.kaps_thumb, R.drawable.poc_thumb, R.drawable.ino_thumb};
+    public static final String[] stickerPath = {"stickers/kaps", "stickers/poc", "stickers/ino"};
+    public static final String[] stickerPathName = {"Kaps", "Poc", "Ino"};
     private StickerFragment mStickerFragment;
     private ImageClick mImageClick = new ImageClick();
 

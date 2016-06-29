@@ -10,7 +10,7 @@ public class BaseActivity extends AppCompatActivity {
 
     public static Dialog newLoadingDialog(Context context, String title,
                                           boolean canCancel) {
-        dialog = new ProgressDialog(context);
+        dialog = new ProgressDialog(context, R.style.AppCompatAlertDialogStyle);
         dialog.setCancelable(canCancel);
         dialog.setMessage(title);
         return dialog;

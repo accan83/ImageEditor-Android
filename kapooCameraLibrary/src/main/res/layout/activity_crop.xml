@@ -1,28 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.kapoocino.camera.cropimage.CropActivity">
+    android:background="@android:color/black"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar"/>
 
     <com.isseiaoki.simplecropview.CropImageView
-        xmlns:custom="http://schemas.android.com/apk/res-auto"
         android:id="@+id/cropImageView"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        custom:scv_handle_size="14dp"
-        custom:scv_touch_padding="8dp"
-        custom:scv_handle_show_mode="show_always"
-        custom:scv_guide_show_mode="show_always"
-        custom:scv_min_frame_size="50dp"
+        android:layout_weight="1"
+        android:padding="16dp"
+        custom:scv_frame_color="@color/kapoocino_light"
         custom:scv_frame_stroke_weight="1dp"
-        custom:scv_guide_stroke_weight="1dp"/>
+        custom:scv_guide_show_mode="not_show"
+        custom:scv_guide_stroke_weight="1dp"
+        custom:scv_handle_color="@color/kapoocino_light"
+        custom:scv_handle_show_mode="show_always"
+        custom:scv_handle_size="12dp"
+        custom:scv_min_frame_size="400px"
+        custom:scv_touch_padding="8dp"/>
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/btnCrop"
+        style="@style/button_dark_done"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="CROP" />
-</RelativeLayout>
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:text="CROP"/>
+
+</LinearLayout>

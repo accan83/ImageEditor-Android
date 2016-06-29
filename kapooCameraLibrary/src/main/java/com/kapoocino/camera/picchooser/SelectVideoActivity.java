@@ -3,17 +3,18 @@ package com.kapoocino.camera.picchooser;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.kapoocino.camera.BaseActivity;
 import com.kapoocino.camera.KapooCamera;
-import com.kapoocino.camera.squarecamera.ImageUtility;
+import com.kapoocino.camera.R;
 
 import java.util.concurrent.ExecutionException;
 
@@ -23,6 +24,18 @@ public class SelectVideoActivity extends BaseActivity {
     @Override
     protected void onCreate(final Bundle b) {
         super.onCreate(b);
+        setContentView(R.layout.activity_select_video);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setTitle("Select Video");
+
+        toolbar.setNavigationOnClickListener(toolbarClick);
+
 //        checkInitImageLoader();
         setResult(RESULT_CANCELED);
 
@@ -34,10 +47,23 @@ public class SelectVideoActivity extends BaseActivity {
         // Replace whatever is in the fragment_container view with this
         // fragment,
         // and add the transaction to the back stack
-        transaction.replace(android.R.id.content, newFragment);
+        transaction.replace(R.id.contentVideo, newFragment);
 
         // Commit the transaction
         transaction.commit();
+    }
+
+    private View.OnClickListener toolbarClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            onBackPressed();
+        }
+    };
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+//        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
     }
 
     void showBucket(final int bucketId) {
@@ -46,7 +72,7 @@ public class SelectVideoActivity extends BaseActivity {
         Fragment f = new VideosFragment();
         f.setArguments(b);
         getSupportFragmentManager().beginTransaction()
-                .replace(android.R.id.content, f).addToBackStack(null).commit();
+                .replace(R.id.contentVideo, f).addToBackStack(null).commit();
     }
 
     void imageSelected(final String imgPath, long imgSize) {

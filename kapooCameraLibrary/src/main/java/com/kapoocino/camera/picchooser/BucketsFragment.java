@@ -15,9 +15,6 @@
  */
 package com.kapoocino.camera.picchooser;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -31,6 +28,9 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.kapoocino.camera.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class BucketsFragment extends Fragment {

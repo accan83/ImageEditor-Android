@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,8 +24,6 @@ import com.kapoocino.camera.editimage.view.CustomViewPager;
 import com.kapoocino.camera.editimage.view.StickerView;
 import com.kapoocino.camera.editimage.view.imagezoom.ImageViewTouch;
 import com.kapoocino.camera.editimage.view.imagezoom.ImageViewTouchBase;
-
-import java.util.Date;
 
 /**
  * 图片编辑 主页面
@@ -53,9 +50,9 @@ public class EditImageActivity extends BaseActivity {
 	private EditImageActivity mContext;
 	public Bitmap mainBitmap;// 底层显示Bitmap
 	public ImageViewTouch mainImage;
-	private View backBtn;
+	private View backBtn, undoBtn;
 
-	public ViewFlipper bannerFlipper;
+	public ViewFlipper navFlipper, bannerFlipper;
 	private View applyBtn;// 应用按钮
 	private View saveBtn;// 保存按钮
 
@@ -67,7 +64,11 @@ public class EditImageActivity extends BaseActivity {
 	public StickerFragment mStickerFragment;// 贴图Fragment
 	public FliterListFragment mFliterListFragment;// 滤镜FliterListFragment
 
-	@Override
+    public View getUndoBtn() {
+        return undoBtn;
+    }
+
+    @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 //		checkInitImageLoader();
@@ -90,6 +91,9 @@ public class EditImageActivity extends BaseActivity {
 		imageWidth = (int) ((float) metrics.widthPixels / 1.5);
 		imageHeight = (int) ((float) metrics.heightPixels / 1.5);
 
+		navFlipper = (ViewFlipper) findViewById(R.id.nav_flipper);
+        navFlipper.setInAnimation(this, R.anim.in_bottom_to_top);
+        navFlipper.setOutAnimation(this, R.anim.out_bottom_to_top);
 		bannerFlipper = (ViewFlipper) findViewById(R.id.banner_flipper);
 		bannerFlipper.setInAnimation(this, R.anim.in_bottom_to_top);
 		bannerFlipper.setOutAnimation(this, R.anim.out_bottom_to_top);
@@ -101,6 +105,13 @@ public class EditImageActivity extends BaseActivity {
 		mainImage = (ImageViewTouch) findViewById(R.id.main_image);
 		backBtn = findViewById(R.id.back_btn);// 退出按钮
 		backBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				forceReturnBack();
+			}
+		});
+		undoBtn = findViewById(R.id.undo_btn);
+		undoBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				forceReturnBack();
@@ -214,7 +225,13 @@ public class EditImageActivity extends BaseActivity {
 			this.finish();
 		}
 		else {
-			changeMainBitmap(KapooCamera.getLastHistory());
+			Bitmap bitmap = KapooCamera.getLastHistory();
+			if (bitmap != null) {
+				changeMainBitmap(bitmap.copy(bitmap.getConfig(), bitmap.isMutable()));
+                if (KapooCamera.getLastHistoryCount() < 2) {
+                    undoBtn.setAlpha(0.3f);
+                }
+			}
 		}
 	}
 

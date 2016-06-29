@@ -2,15 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.kapoocino.camera">
 
-    <!-- 图片编辑Activity -->
-    <activity android:name=".editimage.EditImageActivity"></activity>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
-    <application android:theme="@style/squarecamera__CameraFullScreenTheme">
+    <application android:theme="@style/MyTheme">
+        <activity android:name=".editimage.EditImageActivity"/>
+
         <activity
             android:name=".squarecamera.RuntimePermissionActivity"
-            android:theme="@style/squarecamera__CameraFullScreenTheme.NoUI"></activity>
-        <activity android:name=".cropimage.CropActivity"></activity>
+            android:theme="@style/squarecamera__CameraFullScreenTheme.NoUI"/>
+        <activity android:name=".cropimage.CropActivity"/>
     </application>
 
 </manifest>

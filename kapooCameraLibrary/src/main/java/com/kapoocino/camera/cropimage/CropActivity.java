@@ -3,25 +3,18 @@ package com.kapoocino.camera.cropimage;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
-import com.bumptech.glide.Glide;
 import com.isseiaoki.simplecropview.CropImageView;
 import com.kapoocino.camera.BaseActivity;
 import com.kapoocino.camera.KapooCamera;
 import com.kapoocino.camera.R;
-import com.kapoocino.camera.squarecamera.ImageUtility;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 
 public class CropActivity extends AppCompatActivity {
 
@@ -29,6 +22,17 @@ public class CropActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crop);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setTitle("Crop Image");
+
+        toolbar.setNavigationOnClickListener(toolbarClick);
+
         final CropImageView cropImageView = (CropImageView)findViewById(R.id.cropImageView);
         Button btnCrop = (Button) findViewById(R.id.btnCrop);
 
@@ -56,5 +60,18 @@ public class CropActivity extends AppCompatActivity {
             });
         }
         BaseActivity.getLoadingDialog().dismiss();
+    }
+
+    private View.OnClickListener toolbarClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            onBackPressed();
+        }
+    };
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+//        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
     }
 }

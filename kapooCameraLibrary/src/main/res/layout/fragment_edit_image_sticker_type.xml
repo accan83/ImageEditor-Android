@@ -43,6 +43,14 @@
             android:layout_height="match_parent"
             android:scrollbars="none"/>
 
+        <!--<ImageButton
+            android:id="@+id/apply_sticker"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:src="@drawable/check_icon"/>-->
+
     </LinearLayout>
 
 </ViewFlipper>

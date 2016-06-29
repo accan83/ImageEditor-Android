@@ -69,6 +69,8 @@ public class MainMenuFragment extends Fragment {
                     View.VISIBLE);
             activity.bottomGallery.setCurrentItem(StickerFragment.INDEX);
             activity.bannerFlipper.showNext();
+            activity.navFlipper.showNext();
+            activity.getUndoBtn().setAlpha(0.3f);
         }
     }// end inner class
 

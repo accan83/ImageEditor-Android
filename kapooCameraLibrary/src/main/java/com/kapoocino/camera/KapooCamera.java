@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
+import android.util.Log;
 
 import com.kapoocino.camera.cropimage.CropActivity;
 import com.kapoocino.camera.editimage.EditImageActivity;
@@ -47,8 +48,15 @@ public class KapooCamera{
         return history.get(history.size() - 1);
     }
 
+    public static int getLastHistoryCount() {
+        return history.size();
+    }
+
     public static void removeLastHistory() {
-        history.remove(history.size() - 1);
+        Log.d("---SIZE---", "removeLastHistory: " + history.size());
+        if (history.size() > 1) {
+            history.remove(history.size() - 1);
+        }
     }
 
     public static void openCamera(Activity activity, KapooOption option) {

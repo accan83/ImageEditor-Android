@@ -112,6 +112,8 @@ public class StickerFragment extends Fragment {
         backToType.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {// 返回上一级列表
+                flipper.setInAnimation(activity, R.anim.in_top_to_bottom);
+                flipper.setOutAnimation(activity, R.anim.out_top_to_bottom);
                 flipper.showPrevious();
             }
         });
@@ -124,6 +126,8 @@ public class StickerFragment extends Fragment {
      */
     public void swipToStickerDetails(String path) {
         mStickerAdapter.addStickerImages(path);
+        flipper.setInAnimation(activity, R.anim.in_bottom_to_top);
+        flipper.setOutAnimation(activity, R.anim.out_bottom_to_top);
         flipper.showNext();
     }
 
@@ -176,6 +180,7 @@ public class StickerFragment extends Fragment {
         activity.bottomGallery.setCurrentItem(0);
         mStickerView.setVisibility(View.GONE);
         activity.bannerFlipper.showPrevious();
+        activity.navFlipper.showPrevious();
     }
 
     /**
@@ -230,6 +235,8 @@ public class StickerFragment extends Fragment {
             super.onPostExecute(result);
             mStickerView.clear();
             KapooCamera.addHistory(result);
+//            activity.getUndoBtn().setVisibility(View.VISIBLE);
+            activity.getUndoBtn().setAlpha(1f);
             activity.changeMainBitmap(result);
             dialog.dismiss();
         }
